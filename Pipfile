@@ -7,12 +7,13 @@ name = "pypi"
 django = "*"
 psycopg2-binary = "*"
 environs = {version = "==8.0.0", extras = ["django"]}
-djangorestframework = "*"
+djangorestframework = "==3.11"
 djangorestframework-simplejwt = "*"
 dj-rest-auth = "*"
 django-allauth = "*"
 pyyaml = "==5.3.1"
 uritemplate = "==3.0.1"
+drf-yasg = "==1.17.1"
 
 [dev-packages]
 
