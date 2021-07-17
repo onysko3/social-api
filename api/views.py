@@ -3,7 +3,7 @@ from django.db.models import Count
 from django.utils import timezone
 from rest_framework import generics
 from .permissions import IsAuthorOrReadOnly
-from .serializers import PostSerializer, PostLikeSerializer, UserSerializer
+from .serializers import PostSerializer, PostLikeSerializer, PostLikeAnalyticsSerializer, UserSerializer
 from posts.models import Post, PostLike
 
 
@@ -11,6 +11,9 @@ from posts.models import Post, PostLike
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -23,6 +26,9 @@ class PostLikeList(generics.ListCreateAPIView):
     queryset = PostLike.objects.all()
     serializer_class = PostLikeSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class PostLikeDetail(generics.RetrieveDestroyAPIView):
     queryset = PostLike.objects.all()
@@ -30,7 +36,7 @@ class PostLikeDetail(generics.RetrieveDestroyAPIView):
 
 
 class PostLikeAnalitycs(generics.ListAPIView):
-    serializer_class = PostLikeSerializer
+    serializer_class = PostLikeAnalyticsSerializer
 
     def get_queryset(self):
         start_date = self.kwargs.get('from')

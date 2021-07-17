@@ -4,6 +4,7 @@ from posts.models import Post, PostLike
 
 
 class PostSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.pk')
     likes_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -15,6 +16,15 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class PostLikeSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.pk')
+
+    class Meta:
+        model = PostLike
+        fields = ('pk', 'post', 'user', 'created')
+        read_only_fields = ('created',)
+
+
+class PostLikeAnalyticsSerializer(serializers.ModelSerializer):
     likes_count = serializers.IntegerField()
     created__date = serializers.DateField()
 
