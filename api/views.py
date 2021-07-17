@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from rest_framework import generics
 from .permissions import IsAuthorOrReadOnly
-from .serializers import PostSerializer, UserSerializer
-from posts.models import Post
+from .serializers import PostSerializer, PostLikeSerializer, UserSerializer
+from posts.models import Post, PostLike
 
 
 
@@ -15,6 +16,27 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthorOrReadOnly,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+
+class PostLikeList(generics.ListCreateAPIView):
+    queryset = PostLike.objects.all()
+    serializer_class = PostLikeSerializer
+
+
+class PostLikeDetail(generics.RetrieveDestroyAPIView):
+    queryset = PostLike.objects.all()
+    serializer_class = PostLikeSerializer
+
+
+class PostLikeAnalitycs(generics.ListAPIView):
+    serializer_class = PostLikeSerializer
+
+    def get_queryset(self):
+        start_date = self.kwargs.get('from')
+        end_date = self.kwargs.get('to')
+        # start_date = '2021-07-16'
+        # end_date = '2021-07-18'
+        return PostLike.objects.filter(created__gte=start_date, created__lte=end_date)
 
 
 class UserList(generics.ListAPIView):

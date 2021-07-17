@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.utils.timezone import now
 
 
-class SetLastActivityMiddleware(object):
+class SetLastActivityMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
