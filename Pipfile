@@ -11,6 +11,8 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 dj-rest-auth = "*"
 django-allauth = "*"
+pyyaml = "==5.3.1"
+uritemplate = "==3.0.1"
 
 [dev-packages]
 

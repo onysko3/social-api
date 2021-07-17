@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Count
 from django.utils import timezone
 from rest_framework import generics
 from .permissions import IsAuthorOrReadOnly
@@ -34,9 +35,8 @@ class PostLikeAnalitycs(generics.ListAPIView):
     def get_queryset(self):
         start_date = self.kwargs.get('from')
         end_date = self.kwargs.get('to')
-        # start_date = '2021-07-16'
-        # end_date = '2021-07-18'
-        return PostLike.objects.filter(created__gte=start_date, created__lte=end_date)
+        return PostLike.objects.filter(created__gte=start_date, created__lte=end_date).values(
+            'created__date').annotate(likes_count=Count('user')).order_by('created__date')
 
 
 class UserList(generics.ListAPIView):

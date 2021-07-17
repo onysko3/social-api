@@ -15,11 +15,12 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class PostLikeSerializer(serializers.ModelSerializer):
+    likes_count = serializers.IntegerField()
+    created__date = serializers.DateField()
 
     class Meta:
         model = PostLike
-        fields = ('pk', 'post', 'user', 'created')
-        read_only_fields = ('created',)
+        fields = ('created__date', 'likes_count')
 
 
 class UserSerializer(serializers.ModelSerializer):
