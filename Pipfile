@@ -8,6 +8,9 @@ django = "*"
 psycopg2-binary = "*"
 environs = {version = "==8.0.0", extras = ["django"]}
 djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+dj-rest-auth = "*"
+django-allauth = "*"
 
 [dev-packages]
 
