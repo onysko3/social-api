@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.utils import timezone
 from rest_framework import generics
-from .permissions import IsAuthorOrReadOnly
+from .permissions import IsAuthorOrReadOnly, IsUserOrReadOnly
 from .serializers import PostSerializer, PostLikeSerializer, PostLikeAnalyticsSerializer, UserSerializer
 from posts.models import Post, PostLike
 
@@ -31,6 +31,7 @@ class PostLikeList(generics.ListCreateAPIView):
 
 
 class PostLikeDetail(generics.RetrieveDestroyAPIView):
+    permission_classes = (IsUserOrReadOnly,)
     queryset = PostLike.objects.all()
     serializer_class = PostLikeSerializer
 
